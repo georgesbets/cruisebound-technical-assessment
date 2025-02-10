@@ -1,14 +1,32 @@
+'use client';
+import { useEffect, useState } from 'react';
+import useCruiseApi from '@/app/api/useCruiseApi';
+import { Cruise } from '@/app/definitions';
+import ResultCard from '@/app/components/resultCard';
 
 export default function Home() {
-  return (
+  const { getCruises } = useCruiseApi();
 
+  const [cruises, setCruises] = useState<Cruise[] | undefined>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      const cruises = await getCruises();
+      setCruises(cruises);
+    })();
+  }, []);
+
+  return (
     <div className="flex h-screen">
       {/* Sidebar */}
       <div className="w-1/4 bg-gray-800 text-white p-6">
         <ul className="mt-4 space-y-2">
           <div className="list-component">
             <div className="departure-port">
-              <label htmlFor="departure-port" className="block mb-2 font-medium">
+              <label
+                htmlFor="departure-port"
+                className="block mb-2 font-medium"
+              >
                 Departure Port
               </label>
               <input
@@ -35,7 +53,7 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="w-3/4 bg-gray-200 p-4">
-
+        {cruises && <ResultCard cruise={cruises[0]} />}
       </div>
     </div>
   );
