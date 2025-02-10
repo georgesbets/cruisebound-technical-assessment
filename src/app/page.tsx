@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import useCruiseApi from '@/app/api/useCruiseApi';
 import { Cruise } from '@/app/definitions';
-import ResultCard from '@/app/components/resultCard';
+import CruisePaginationComponent from '@/app/components/cruisePaginationComponent';
 
 export default function Home() {
   const { getCruises } = useCruiseApi();
@@ -14,10 +14,11 @@ export default function Home() {
       const cruises = await getCruises();
       setCruises(cruises);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex ">
       {/* Sidebar */}
       <div className="w-1/4 bg-gray-800 text-white p-6">
         <ul className="mt-4 space-y-2">
@@ -53,7 +54,7 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="w-3/4 bg-gray-200 p-4">
-        {cruises && <ResultCard cruise={cruises[0]} />}
+        {cruises && <CruisePaginationComponent cruises={cruises} />}
       </div>
     </div>
   );

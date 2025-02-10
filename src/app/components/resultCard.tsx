@@ -17,7 +17,7 @@ const ResultCard = (props: ResultCardProps) => {
     const departureDate = new Date(cruise.departureDate);
     const returnDate = new Date(cruise.returnDate);
 
-    let result = '';
+    let result: string;
     if (departureDate.getMonth() === returnDate.getMonth()) {
       result = `${getMonthAbbreviation(departureDate.getMonth())} ${departureDate.getDay()}-${returnDate.getDay()}, ${departureDate.getFullYear()}`;
     } else {
@@ -28,7 +28,7 @@ const ResultCard = (props: ResultCardProps) => {
   }, [cruise.departureDate, cruise.returnDate]);
 
   return (
-    <div className={'flex w-120 h-30 rounded-lg shadow overflow-hidden'}>
+    <div className={'flex w-120 h-30 rounded-xl shadow overflow-hidden'}>
       <div
         className="w-1/4 p-2 bg-cover bg-center rounded-l-lg"
         style={{ backgroundImage: `url(${cruise.ship.image})` }}
@@ -84,7 +84,9 @@ const ResultCard = (props: ResultCardProps) => {
         >
           <div className={'text-xs text-gray-500 justify-items-end'}>
             Interior from
-            <div className={'text-black text-lg'}>{`$${cruise.price}`}</div>
+            <div
+              className={'text-black text-lg'}
+            >{`$${Math.round(cruise.price)}`}</div>
           </div>
           <div className={'pl-[20px] pr-[20px]'}>
             <button
