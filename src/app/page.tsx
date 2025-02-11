@@ -2,7 +2,7 @@
 import CruisePaginationComponent from '@/app/components/cruisePaginationComponent';
 import useFilterAndSortCruises from '@/app/hooks/useFilterAndSortCruises';
 import { cruiseSortingOptions } from '@/app/definitions';
-import CruiseFilterAndSortControls from '@/app/components/CruiseFilterAndSortControls';
+import CruiseFilterAndSortControls from '@/app/components/cruiseFilterAndSortControls';
 
 export default function Home() {
   const {

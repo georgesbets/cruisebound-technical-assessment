@@ -1,3 +1,5 @@
+import { Cruise, RawCruise } from '@/app/definitions';
+
 const useCruiseApi = () => {
   const getCruises = async () => {
     const response = await fetch('https://sandbox.cruisebound-qa.com/sailings');
@@ -7,7 +9,13 @@ const useCruiseApi = () => {
     } else {
       const responseJson = await response.json();
 
-      return responseJson.results;
+      return responseJson.results.map(
+        (cruise: RawCruise): Cruise => ({
+          ...cruise,
+          departureDate: new Date(cruise.departureDate),
+          returnDate: new Date(cruise.returnDate),
+        })
+      );
     }
   };
 

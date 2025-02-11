@@ -9,6 +9,17 @@ export type Cruise = {
   duration: number;
 };
 
+export type RawCruise = {
+  price: number;
+  name: string;
+  ship: Ship;
+  itinerary: string[];
+  region: string;
+  departureDate: string;
+  returnDate: string;
+  duration: number;
+};
+
 export type Ship = {
   name: string;
   rating: number;

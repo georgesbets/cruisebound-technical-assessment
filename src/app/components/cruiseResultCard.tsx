@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Cruise } from '@/app/definitions';
@@ -13,15 +13,25 @@ interface ResultCardProps {
 const CruiseResultCard = (props: ResultCardProps) => {
   const { cruise } = props;
 
-  const deriveDurationString = useCallback(() => {
-    const departureDate = new Date(cruise.departureDate);
-    const returnDate = new Date(cruise.returnDate);
+  const derivedDurationString = useMemo(() => {
+    const departureDate = cruise.departureDate;
+    const returnDate = cruise.returnDate;
 
     let result: string;
-    if (departureDate.getMonth() === returnDate.getMonth()) {
-      result = `${getMonthAbbreviation(departureDate.getMonth())} ${departureDate.getDay()}-${returnDate.getDay()}, ${departureDate.getFullYear()}`;
+
+    if (
+      departureDate.getMonth() === returnDate.getMonth() &&
+      departureDate.getFullYear() === returnDate.getFullYear()
+    ) {
+      result = `${getMonthAbbreviation(
+        departureDate.getMonth()
+      )} ${departureDate.getDate()} - ${returnDate.getDate()}, ${departureDate.getFullYear()}`;
     } else {
-      result = `${getMonthAbbreviation(departureDate.getMonth())} ${departureDate.getDay()}, ${departureDate.getFullYear()} - ${getMonthAbbreviation(returnDate.getMonth())} ${returnDate.getDay()}, ${returnDate.getFullYear()}`;
+      if (returnDate.getFullYear() === departureDate.getFullYear()) {
+        result = `${getMonthAbbreviation(departureDate.getMonth())} ${departureDate.getDate()} - ${getMonthAbbreviation(returnDate.getMonth())} ${returnDate.getDate()}, ${returnDate.getFullYear()}`;
+      } else {
+        result = `${getMonthAbbreviation(departureDate.getMonth())} ${departureDate.getDate()}, ${departureDate.getFullYear()} - ${getMonthAbbreviation(returnDate.getMonth())} ${returnDate.getDate()}, ${returnDate.getFullYear()}`;
+      }
     }
 
     return result;
@@ -38,7 +48,7 @@ const CruiseResultCard = (props: ResultCardProps) => {
             'inline-block pl-1 pr-1 rounded-sm bg-black bg-opacity-80 h-0.25 w-auto text-white'
           }
         >
-          {deriveDurationString()}
+          {derivedDurationString}
         </div>
       </div>
       <div className={'w-3/4 flex flex-col bg-white'}>

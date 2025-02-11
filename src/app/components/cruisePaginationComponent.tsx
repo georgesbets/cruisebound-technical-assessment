@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import CruiseResultCard from '@/app/components/cruiseResultCard';
@@ -11,6 +11,10 @@ interface PaginationProps {
 const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
   const pageSize = 10; // Number of results per page
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [cruises]);
 
   // Calculate total pages
   const totalPages = useMemo(() => {
@@ -169,7 +173,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
   }, [getPageData]);
 
   return (
-    <div>
+    <div className={'w-[100%]'}>
       {/* Render cruise results */}
       <div>{renderResults}</div>
 
