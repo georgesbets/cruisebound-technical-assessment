@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SortingOption } from '@/app/definitions';
-import SortCruisesMenuComponent from '@/app/components/SortCruisesMenuComponent';
+import SortCruisesMenuComponent from '@/app/components/sortCruisesMenuComponent';
 
 interface CruiseFilterAndSortControlsProps {
   filteredCruiseCount: number;
