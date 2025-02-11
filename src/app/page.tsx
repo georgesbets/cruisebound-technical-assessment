@@ -86,7 +86,7 @@ export default function Home() {
       <div
         className={`flex flex-col w-[100%] min-w-[515px] p-6 pr-8 items-end`}
       >
-        test
+        test 2
         <CruiseFilterAndSortControls
           setSelectedOption={setCruiseSortSelectedOption}
           selectedOption={cruiseSortSelectedOption}
