@@ -45,7 +45,7 @@ const CruiseResultCard = (props: ResultCardProps) => {
       >
         <div
           className={
-            'inline-block pl-1 pr-1 rounded-sm bg-black bg-opacity-80 h-0.25 w-auto text-white'
+            'inline-block p-[5px] pr-[10px] pl-[10px] rounded bg-black bg-opacity-80 h-0.25 w-auto text-white text-[14px]'
           }
         >
           {derivedDurationString}

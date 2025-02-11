@@ -1,5 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import { SortingOption } from '@/app/definitions';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface SortCruisesMenuComponentProps {
   selectedOption: SortingOption | null;
@@ -42,13 +50,37 @@ const SortCruisesMenuComponent = (props: SortCruisesMenuComponentProps) => {
     [selectedOption?.value, setSelectedOption]
   );
 
+  const selectedOptionDisplayedText = useMemo(() => {
+    return (
+      <div className={'flex grid-cols-2 flex-row'}>
+        <div className={'flex flex-col col-span-1 items-start'}>
+          {selectedOption ? (
+            <>
+              <div className={'leading-none'}>{selectedOption.property}</div>
+              <div className={'text-gray-500 leading-none text-xs'}>
+                {selectedOption.label}
+              </div>
+            </>
+          ) : (
+            <div className={'leading-none text-sm'}>Sort Options</div>
+          )}
+        </div>
+        <div className={'col-span-1 text-gray-500 ml-[10px] mr-[-5px]'}>
+          <FontAwesomeIcon icon={faCaretDown} />
+        </div>
+      </div>
+    );
+  }, [selectedOption]);
+
   return (
     <div className="relative" ref={menuRef}>
       <button
-        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+        className={
+          'w-[120px] px-4 py-2 rounded border-[1px] border-gray-200 bg-white shadow'
+        }
         onClick={handleButtonClick}
       >
-        {selectedOption ? selectedOption.label : 'Sort Options'}
+        {selectedOptionDisplayedText}
       </button>
       {isMenuOpen && (
         <div className="absolute right-0 mt-2 w-56 bg-white border rounded-md shadow-lg">
@@ -62,7 +94,7 @@ const SortCruisesMenuComponent = (props: SortCruisesMenuComponentProps) => {
               }`}
               onClick={() => handleOptionClick(option)}
             >
-              {option.label}
+              {`${option.property}: ${option.label}`}
             </div>
           ))}
         </div>

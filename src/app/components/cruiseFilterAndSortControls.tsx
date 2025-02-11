@@ -22,15 +22,19 @@ const CruiseFilterAndSortControls = (
   } = props;
 
   return (
-    <div className={'inline-block'}>
-      <div className={'font-700'}>Sort by</div>
-      <SortCruisesMenuComponent
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        sortingOptions={sortingOptions}
-      />
-      <div className={'inline-block'}>
-        <div>{`${filteredCruiseCount} trips found`}</div>
+    <div className={'flex flex-col w-[100%]'}>
+      <div className={'w-[100%] flex items-center justify-end'}>
+        <div className={'text-[20px] pr-[10px]'}>Sort by</div>
+        <SortCruisesMenuComponent
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          sortingOptions={sortingOptions}
+        />
+      </div>
+      <div className={'w-[100%] flex pb-4'}>
+        <div
+          className={'font-bold pr-3'}
+        >{`${filteredCruiseCount} trips found`}</div>
         <button
           onClick={resetFilters}
           className={

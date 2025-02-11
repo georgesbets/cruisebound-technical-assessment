@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="flex min-h-svh ">
       {/* Sidebar */}
-      <div className="w-1/4 bg-gray-800 text-white p-6">
+      <div className="w-1/4 min-w-[195px] bg-gray-800 text-white p-6">
         <ul className="mt-4 space-y-2">
           <div className="list-component">
             <div className="departure-port">
@@ -56,7 +56,7 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col w-3/4 p-4 items-end">
+      <div className="flex flex-col w-3/4 min-w-[515px] p-6 pr-8 items-end">
         <CruiseFilterAndSortControls
           setSelectedOption={setCruiseSortSelectedOption}
           selectedOption={cruiseSortSelectedOption}

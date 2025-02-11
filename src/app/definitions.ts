@@ -36,13 +36,22 @@ export type Line = {
 export type SortingOption = {
   label: string;
   value: string;
+  property: string;
 };
 
 export const cruiseSortingOptions: SortingOption[] = [
-  { label: 'Price: Lowest First', value: 'price_lowest' },
-  { label: 'Price: Highest First', value: 'price_highest' },
-  { label: 'Departure Date: Earliest First', value: 'departure_earliest' },
-  { label: 'Departure Date: Latest First', value: 'departure_latest' },
-  { label: 'Duration: Shortest First', value: 'duration_shortest' },
-  { label: 'Duration: Longest First', value: 'duration_longest' },
+  { property: 'Price', label: 'Lowest first', value: 'price_lowest' },
+  { property: 'Price', label: 'Highest first', value: 'price_highest' },
+  {
+    property: 'Departure',
+    label: 'Earliest first',
+    value: 'departure_earliest',
+  },
+  {
+    property: 'Departure',
+    label: 'Latest first',
+    value: 'departure_latest',
+  },
+  { property: 'Duration', label: 'Shortest first', value: 'duration_shortest' },
+  { property: 'Duration', label: 'Longest first', value: 'duration_longest' },
 ];
