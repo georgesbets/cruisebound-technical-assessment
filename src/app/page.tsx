@@ -1,24 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
-import useCruiseApi from '@/app/api/useCruiseApi';
-import { Cruise } from '@/app/definitions';
 import CruisePaginationComponent from '@/app/components/cruisePaginationComponent';
+import useFilterAndSortCruises from '@/app/hooks/useFilterAndSortCruises';
+import { cruiseSortingOptions } from '@/app/definitions';
+import CruiseFilterAndSortControls from '@/app/components/CruiseFilterAndSortControls';
 
 export default function Home() {
-  const { getCruises } = useCruiseApi();
-
-  const [cruises, setCruises] = useState<Cruise[] | undefined>(undefined);
-
-  useEffect(() => {
-    (async () => {
-      const cruises = await getCruises();
-      setCruises(cruises);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {
+    departurePortInputValue,
+    handleDeparturePortChange,
+    cruiselineInputValue,
+    handleCruiselineChange,
+    filteredCruises,
+    cruiseSortSelectedOption,
+    setCruiseSortSelectedOption,
+  } = useFilterAndSortCruises();
 
   return (
-    <div className="flex ">
+    <div className="flex min-h-svh ">
       {/* Sidebar */}
       <div className="w-1/4 bg-gray-800 text-white p-6">
         <ul className="mt-4 space-y-2">
@@ -33,8 +31,10 @@ export default function Home() {
               <input
                 type="text"
                 id="departure-port"
+                value={departurePortInputValue}
+                onChange={handleDeparturePortChange} // Update filter state
                 placeholder="Any Port"
-                className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               />
             </div>
             <div className="cruiseline mt-4">
@@ -44,8 +44,10 @@ export default function Home() {
               <input
                 type="text"
                 id="cruiseline"
+                value={cruiselineInputValue}
+                onChange={handleCruiselineChange} // Update filter state
                 placeholder="Any Ship"
-                className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               />
             </div>
           </div>
@@ -53,8 +55,14 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="w-3/4 bg-gray-200 p-4">
-        {cruises && <CruisePaginationComponent cruises={cruises} />}
+      <div className="flex flex-col w-3/4 p-4 items-end">
+        <CruiseFilterAndSortControls
+          setSelectedOption={setCruiseSortSelectedOption}
+          selectedOption={cruiseSortSelectedOption}
+          filteredCruiseCount={filteredCruises.length}
+          sortingOptions={cruiseSortingOptions}
+        />
+        <CruisePaginationComponent cruises={filteredCruises} />
       </div>
     </div>
   );

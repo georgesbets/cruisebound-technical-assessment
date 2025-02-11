@@ -10,7 +10,7 @@ interface ResultCardProps {
   cruise: Cruise;
 }
 
-const ResultCard = (props: ResultCardProps) => {
+const CruiseResultCard = (props: ResultCardProps) => {
   const { cruise } = props;
 
   const deriveDurationString = useCallback(() => {
@@ -103,4 +103,4 @@ const ResultCard = (props: ResultCardProps) => {
   );
 };
 
-export default ResultCard;
+export default CruiseResultCard;

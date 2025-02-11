@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import ResultCard from '@/app/components/resultCard';
+import CruiseResultCard from '@/app/components/cruiseResultCard';
 import { Cruise } from '@/app/definitions';
 
 interface PaginationProps {
@@ -13,20 +13,25 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate total pages
-  const totalPages = Math.ceil(cruises.length / pageSize);
+  const totalPages = useMemo(() => {
+    return Math.max(Math.ceil(cruises.length / pageSize), 1);
+  }, [cruises]);
 
   // Get cruises for the current page
-  const getPageData = () => {
+  const getPageData = useCallback(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return cruises.slice(startIndex, startIndex + pageSize);
-  };
+  }, [cruises, currentPage]);
 
   // Handle page change
-  const handlePageChange = (page: number) => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page > 0 && page <= totalPages) {
+        setCurrentPage(page);
+      }
+    },
+    [totalPages]
+  );
 
   // Render pagination controls with custom behavior
   const renderPagination = () => {
@@ -38,7 +43,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
         pages.push(
           <button
             key={i}
-            className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-300'} rounded-full text-sm`}
+            className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-100'} rounded-full text-sm`}
             onClick={() => handlePageChange(i)}
           >
             {i}
@@ -53,7 +58,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
           pages.push(
             <button
               key={i}
-              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-300'} rounded-full text-sm`}
+              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-100'} rounded-full text-sm`}
               onClick={() => handlePageChange(i)}
             >
               {i}
@@ -68,7 +73,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
         pages.push(
           <button
             key={totalPages}
-            className={`px-2 py-1 ${currentPage === totalPages ? 'bg-white' : 'bg-gray-300'} text-black rounded-full text-sm`}
+            className={`px-2 py-1 ${currentPage === totalPages ? 'bg-white' : 'bg-gray-100'} text-black rounded-full text-sm`}
             onClick={() => handlePageChange(totalPages)}
           >
             {totalPages}
@@ -79,7 +84,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
         pages.push(
           <button
             key={1}
-            className={`px-2 py-1 ${currentPage === 1 ? 'bg-white' : 'bg-gray-300'} text-black rounded-full text-sm`}
+            className={`px-2 py-1 ${currentPage === 1 ? 'bg-white' : 'bg-gray-100'} text-black rounded-full text-sm`}
             onClick={() => handlePageChange(1)}
           >
             1
@@ -97,7 +102,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
           pages.push(
             <button
               key={i}
-              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-300'} rounded-full text-sm`}
+              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-100'} rounded-full text-sm`}
               onClick={() => handlePageChange(i)}
             >
               {i}
@@ -109,7 +114,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
         pages.push(
           <button
             key={1}
-            className={`px-2 py-1 ${currentPage === 1 ? 'bg-white' : 'bg-gray-300'} text-black rounded-full text-sm`}
+            className={`px-2 py-1 ${currentPage === 1 ? 'bg-white' : 'bg-gray-100'} text-black rounded-full text-sm`}
             onClick={() => handlePageChange(1)}
           >
             1
@@ -127,7 +132,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
           pages.push(
             <button
               key={i}
-              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-300'} rounded-full text-sm`}
+              className={`px-2 py-1 ${currentPage === i ? 'bg-white' : 'bg-gray-100'} rounded-full text-sm`}
               onClick={() => handlePageChange(i)}
             >
               {i}
@@ -142,7 +147,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
         pages.push(
           <button
             key={totalPages}
-            className={`px-2 py-1 ${currentPage === totalPages ? 'bg-white' : 'bg-gray-300'} text-black rounded-full text-sm`}
+            className={`px-2 py-1 ${currentPage === totalPages ? 'bg-white' : 'bg-gray-100'} text-black rounded-full text-sm`}
             onClick={() => handlePageChange(totalPages)}
           >
             {totalPages}
@@ -155,11 +160,13 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
   };
 
   // Render cruises for the current page
-  const renderResults = getPageData().map((cruise, index) => (
-    <div key={`${cruise.name}-${index}`} className="mb-4">
-      <ResultCard cruise={cruise} />
-    </div>
-  ));
+  const renderResults = useMemo(() => {
+    return getPageData().map((cruise, index) => (
+      <div key={`${cruise.name}-${index}`} className="mb-4">
+        <CruiseResultCard cruise={cruise} />
+      </div>
+    ));
+  }, [getPageData]);
 
   return (
     <div>
@@ -167,7 +174,7 @@ const CruisePaginationComponent = ({ cruises }: PaginationProps) => {
       <div>{renderResults}</div>
 
       {/* Render pagination controls */}
-      <div className="inline-block justify-center items-center mt-6 p-2 rounded-md bg-gray-300 space-x-2">
+      <div className="inline-block justify-center items-center mt-6 p-2 rounded-md bg-gray-100 space-x-2">
         {/* Previous arrow */}
         <button
           className="px-2 py-1 text-black rounded disabled:opacity-50"
