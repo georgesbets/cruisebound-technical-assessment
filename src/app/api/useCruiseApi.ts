@@ -2,7 +2,12 @@ import { Cruise, RawCruise } from '@/app/definitions';
 
 const useCruiseApi = () => {
   const getCruises = async () => {
-    const response = await fetch('https://sandbox.cruisebound-qa.com/sailings');
+    const response = await fetch(
+      'https://sandbox.cruisebound-qa.com/sailings',
+      {
+        mode: 'cors',
+      }
+    );
 
     if (!response.ok) {
       throw new Error('failed to fetch ');
