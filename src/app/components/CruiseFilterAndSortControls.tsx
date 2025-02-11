@@ -7,6 +7,7 @@ interface CruiseFilterAndSortControlsProps {
   selectedOption: SortingOption | null;
   setSelectedOption: (option: SortingOption) => void;
   sortingOptions: SortingOption[];
+  resetFilters: () => void;
 }
 
 const CruiseFilterAndSortControls = (
@@ -17,6 +18,7 @@ const CruiseFilterAndSortControls = (
     selectedOption,
     setSelectedOption,
     sortingOptions,
+    resetFilters,
   } = props;
 
   return (
@@ -27,9 +29,16 @@ const CruiseFilterAndSortControls = (
         setSelectedOption={setSelectedOption}
         sortingOptions={sortingOptions}
       />
-
       <div className={'inline-block'}>
         <div>{`${filteredCruiseCount} trips found`}</div>
+        <button
+          onClick={resetFilters}
+          className={
+            'rounded border-[1px] border-gray-200 bg-white shadow text-sm pr-[2px] pl-[2px]'
+          }
+        >
+          Reset filters
+        </button>
       </div>
     </div>
   );

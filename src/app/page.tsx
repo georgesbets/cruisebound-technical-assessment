@@ -13,6 +13,7 @@ export default function Home() {
     filteredCruises,
     cruiseSortSelectedOption,
     setCruiseSortSelectedOption,
+    resetFilters,
   } = useFilterAndSortCruises();
 
   return (
@@ -61,6 +62,7 @@ export default function Home() {
           selectedOption={cruiseSortSelectedOption}
           filteredCruiseCount={filteredCruises.length}
           sortingOptions={cruiseSortingOptions}
+          resetFilters={resetFilters}
         />
         <CruisePaginationComponent cruises={filteredCruises} />
       </div>

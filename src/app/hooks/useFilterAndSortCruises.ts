@@ -101,6 +101,11 @@ const useFilterAndSortCruises = () => {
     []
   );
 
+  const resetFilters = useCallback(() => {
+    setCruiseline('');
+    setDeparturePort('');
+  }, []);
+
   return {
     departurePortInputValue: departurePort,
     handleDeparturePortChange,
@@ -109,6 +114,7 @@ const useFilterAndSortCruises = () => {
     filteredCruises,
     cruiseSortSelectedOption,
     setCruiseSortSelectedOption,
+    resetFilters,
   };
 };
 
